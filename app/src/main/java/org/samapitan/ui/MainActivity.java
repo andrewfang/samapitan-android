@@ -4,6 +4,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,17 +20,21 @@ import android.support.v7.app.AppCompatActivity;
 import org.samapitan.R;
 import org.samapitan.model.Interest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
+    GoogleMap.OnInfoWindowClickListener {
 
   private GoogleMap map;
   private List<Interest> interests;
+  private final Map<Marker, Interest> markerInterestMap = new HashMap<>();
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.main);
+    setContentView(R.layout.main_activity);
     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
         .findFragmentById(R.id.map);
     mapFragment.getMapAsync(this);
@@ -54,7 +59,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
   @Override
   public void onMapReady(GoogleMap googleMap) {
     this.map = googleMap;
+    this.map.setOnInfoWindowClickListener(this);
     updateMap();
+  }
+
+  @Override
+  public void onInfoWindowClick(Marker marker) {
+    Interest interest = this.markerInterestMap.get(marker);
+    if (interest != null) {
+      startActivity(InterestActivity.generateIntent(this, interest));
+    }
   }
 
   private void updateMap() {
@@ -65,10 +79,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     if (this.interests != null) {
       for (int i = 0, size = this.interests.size(); i < size; i++) {
         Interest interest = this.interests.get(i);
-        this.map.addMarker(new MarkerOptions()
+        Marker marker = this.map.addMarker(new MarkerOptions()
             .position(new LatLng(interest.latitude, interest.longitude))
             .title(interest.title)
             .snippet(interest.description));
+        markerInterestMap.put(marker, interest);
       }
     }
   }
