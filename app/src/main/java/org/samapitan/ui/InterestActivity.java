@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +43,13 @@ public class InterestActivity extends AppCompatActivity {
       ButterKnife.bind(this);
       this.title.setText(interest.title);
       this.description.setText(interest.description);
+
+      ActionBar actionBar = getSupportActionBar();
+      if (actionBar != null) {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(interest.title);
+      }
+
       Picasso.with(this)
           .load(interest.photoUrl)
           .fit()
@@ -53,5 +62,14 @@ public class InterestActivity extends AppCompatActivity {
   protected void onDestroy() {
     Picasso.with(this).cancelRequest(this.image);
     super.onDestroy();
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      finish();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 }

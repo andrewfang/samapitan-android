@@ -14,31 +14,43 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/title"
+      android:gravity="center_vertical"
       android:paddingLeft="@dimen/edge_keyline"
       android:paddingRight="@dimen/edge_keyline"
+      android:paddingTop="4dp"
+      android:paddingBottom="4dp"
+      android:background="@color/gray_background"
+      android:textAppearance="@style/InterestHeader"
       />
   <TextView
       android:id="@+id/title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="@android:color/white"
-      android:paddingLeft="@dimen/edge_keyline"
-      android:paddingRight="@dimen/edge_keyline"
+      android:gravity="center_vertical"
+      android:padding="@dimen/edge_keyline"
       />
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/description"
+      android:gravity="center_vertical"
       android:paddingLeft="@dimen/edge_keyline"
       android:paddingRight="@dimen/edge_keyline"
+      android:paddingTop="4dp"
+      android:paddingBottom="4dp"
+      android:background="@color/gray_background"
+      android:textAppearance="@style/InterestHeader"
       />
   <TextView
       android:id="@+id/description"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@android:color/white"
-      android:paddingLeft="@dimen/edge_keyline"
-      android:paddingRight="@dimen/edge_keyline"
+      android:padding="@dimen/edge_keyline"
+      />
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="64dp"
+      android:background="@color/gray_background"
       />
 </LinearLayout>
